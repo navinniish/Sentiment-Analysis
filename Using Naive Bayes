@@ -1,0 +1,31 @@
+#NLTK with Machine Learning
+
+#Import the neccessary libraries
+
+import nltk
+from nltk.corpus import movie_reviews
+from nltk.classify import NaiveBayesClassifier
+from nltk.sentiment import SentimentAnalyzer
+from nltk.sentiment.util import extract_unigram_feats, mark_negation
+
+# Prepare training data
+neg_reviews = [(list(movie_reviews.words(fileid)), 'negative') for fileid in movie_reviews.fileids('neg')]
+pos_reviews = [(list(movie_reviews.words(fileid)), 'positive') for fileid in movie_reviews.fileids('pos')]
+train_data = neg_reviews + pos_reviews
+
+# Feature extraction
+sentim_analyzer = SentimentAnalyzer()
+feat_extract = sentim_analyzer.apply_features(extract_unigram_feats, corpus=movie_reviews, labeled=True)
+
+# Train the classifier
+classifier = sentim_analyzer.train(NaiveBayesClassifier.train, feat_extract)
+
+# Sample text for sentiment analysis
+text = "I love this movie! It's fantastic."
+
+# Classify sentiment
+features = mark_negation(extract_unigram_feats(text.split()))
+sentiment = classifier.classify(features)
+
+# Print sentiment
+print(sentiment)
