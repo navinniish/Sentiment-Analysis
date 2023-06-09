@@ -11,36 +11,26 @@ text = "I like this cat"
 
 # Tokenize the text
 tokens = word_tokenize(text)
-
-# Remove stopwords
 stop_words = set(stopwords.words('english'))
 filtered_tokens = [token for token in tokens if token.lower() not in stop_words]
 
-# Initialize CountVectorizer
+# Initialize CountVectorizer and transform
 count_vectorizer = CountVectorizer()
-
-# Fit and transform the text data
 count_matrix = count_vectorizer.fit_transform(filtered_tokens)
 
 # Convert the matrix to an array
 feature_names = count_vectorizer.get_feature_names()
 count_features = count_matrix.toarray()
-
-# Print the feature names and counts
 print("Feature Names:", feature_names)
 print("Count Features:", count_features)
 
-# Initialize TfidfVectorizer
+# Initialize TfidfVectorizer and transform
 tfidf_vectorizer = TfidfVectorizer()
-
-# Fit and transform the text data
 tfidf_matrix = tfidf_vectorizer.fit_transform(filtered_tokens)
 
 # Convert the matrix to an array
 feature_names = tfidf_vectorizer.get_feature_names()
 tfidf_features = tfidf_matrix.toarray()
-
-# Print the feature names and TF-IDF values
 print("Feature Names:", feature_names)
 print("TF-IDF Features:", tfidf_features)
 
